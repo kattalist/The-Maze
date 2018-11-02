@@ -13,10 +13,10 @@ import java.awt.*;
  */
 public class Square {
 
-    static int hovX = 50, hovY = 0; //The square that is being hovered over
-    int x, y;
-    int state; //Whether or not the block is a wall or a path
-    boolean exit = false;
+    public static int hovX = 50, hovY = 0; //The square that is being hovered over
+    public int x, y;
+    public int state; //Whether or not the block is a wall or a path
+    public boolean exit = false;
 
     public Square(int x, int y, int state, boolean exit) {
         this.x = x;
@@ -27,7 +27,7 @@ public class Square {
 
     public void display(Graphics g) {
         if (exit) {
-            g.setColor(Color.RED);
+            g.setColor(Color.GREEN);
             g.fillRect(x,y,50,50);
         } else {
             if (state == 0) {
@@ -37,8 +37,6 @@ public class Square {
                 g.setColor(Color.DARK_GRAY);
                 g.fillRect(x, y, 50, 50);
             }
-            g.setColor(Color.RED);
-            g.drawRect(hovX, hovY, 50, 50);
         }
     }
 }

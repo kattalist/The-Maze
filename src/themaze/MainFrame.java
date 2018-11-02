@@ -17,6 +17,7 @@ import javax.swing.KeyStroke;
  */
 public class MainFrame extends javax.swing.JFrame {
 
+    static int gameMode = 0; //0 is edit mode, 1 is play mode
     static ArrayList<Square> board = new ArrayList<>();
 
     private static final int IFW = JComponent.WHEN_IN_FOCUSED_WINDOW;
@@ -69,7 +70,7 @@ public class MainFrame extends javax.swing.JFrame {
         gameBoard1 = new themaze.GameBoard();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(750, 750));
+        setTitle("Jack's Maze Game");
 
         gameBoard1.setMinimumSize(new java.awt.Dimension(750, 750));
 
@@ -145,94 +146,138 @@ public class MainFrame extends javax.swing.JFrame {
         public void actionPerformed(ActionEvent e) {
             if (moveDir == 1) {//UP 
                 if (gameBoard1.py > 0) {
-                    if (gameBoard1.px == Square.hovX && gameBoard1.py == Square.hovY + 50) {
+                    if (gameMode == 0) {
+                        if (gameBoard1.px == Square.hovX && gameBoard1.py == Square.hovY + 50) {
+                            for (Square s : board) {
+                                if (s.x == Square.hovX && s.y == Square.hovY && s.state == 0) {
+                                    gameBoard1.py -= 50;
+                                }
+                            }
+                        } else {
+                            Square.hovX = gameBoard1.px;
+                            Square.hovY = gameBoard1.py - 50;
+                        }
+                    } else {
                         for (Square s : board) {
-                            if (s.x == Square.hovX && s.y == Square.hovY && s.state == 0) {
+                            if (s.x == gameBoard1.px && s.y == gameBoard1.py - 50 && s.state == 0) {
                                 gameBoard1.py -= 50;
                             }
                         }
-                    } else {
-                        Square.hovX = gameBoard1.px;
-                        Square.hovY = gameBoard1.py - 50;
                     }
                 }
             } else if (moveDir == 2) { //RIGHT
                 if (gameBoard1.px < 700) {
-                    if (gameBoard1.px == Square.hovX - 50 && gameBoard1.py == Square.hovY) {
+                    if (gameMode == 0) {
+                        if (gameBoard1.px == Square.hovX - 50 && gameBoard1.py == Square.hovY) {
+                            for (Square s : board) {
+                                if (s.x == Square.hovX && s.y == Square.hovY && s.state == 0) {
+                                    gameBoard1.px += 50;
+                                }
+                            }
+                        } else {
+                            Square.hovX = gameBoard1.px + 50;
+                            Square.hovY = gameBoard1.py;
+                        }
+                    } else {
                         for (Square s : board) {
-                            if (s.x == Square.hovX && s.y == Square.hovY && s.state == 0) {
+                            if (s.x == gameBoard1.px + 50 && s.y == gameBoard1.py && s.state == 0) {
                                 gameBoard1.px += 50;
                             }
                         }
-                    } else {
-                        Square.hovX = gameBoard1.px + 50;
-                        Square.hovY = gameBoard1.py;
                     }
                 }
             } else if (moveDir == 3) { //DOWN
                 if (gameBoard1.py < 700) {
-                    if (gameBoard1.px == Square.hovX && gameBoard1.py == Square.hovY - 50) {
+                    if (gameMode == 0) {
+                        if (gameBoard1.px == Square.hovX && gameBoard1.py == Square.hovY - 50) {
+                            for (Square s : board) {
+                                if (s.x == Square.hovX && s.y == Square.hovY && s.state == 0) {
+                                    gameBoard1.py += 50;
+                                }
+                            }
+                        } else {
+                            Square.hovX = gameBoard1.px;
+                            Square.hovY = gameBoard1.py + 50;
+                        }
+                    } else {
                         for (Square s : board) {
-                            if (s.x == Square.hovX && s.y == Square.hovY && s.state == 0) {
+                            if (s.x == gameBoard1.px && s.y == gameBoard1.py + 50 && s.state == 0) {
                                 gameBoard1.py += 50;
                             }
                         }
-                    } else {
-                        Square.hovX = gameBoard1.px;
-                        Square.hovY = gameBoard1.py + 50;
                     }
-                }
-            } else { //LEFT
-                if (gameBoard1.px > 0) {
-                    if (gameBoard1.px == Square.hovX + 50 && gameBoard1.py == Square.hovY) {
-                        for (Square s : board) {
-                            if (s.x == Square.hovX && s.y == Square.hovY && s.state == 0) {
-                                gameBoard1.px -= 50;
+                } else { //LEFT
+                    if (gameBoard1.px > 0) {
+                        if (gameMode == 0) {
+                            if (gameBoard1.px == Square.hovX + 50 && gameBoard1.py == Square.hovY) {
+                                for (Square s : board) {
+                                    if (s.x == Square.hovX && s.y == Square.hovY && s.state == 0) {
+                                        gameBoard1.px -= 50;
+                                    }
+                                }
+                            } else {
+                                Square.hovX = gameBoard1.px - 50;
+                                Square.hovY = gameBoard1.py;
+                            }
+                        } else {
+                            for (Square s : board) {
+                                if (s.x == gameBoard1.px - 50 && s.y == gameBoard1.py && s.state == 0) {
+                                    gameBoard1.px -= 50;
+                                }
                             }
                         }
-                    } else {
-                        Square.hovX = gameBoard1.px - 50;
-                        Square.hovY = gameBoard1.py;
+                    }
+                }
+                repaint();
+            }
+        }
+
+        private class changeStateAction extends AbstractAction {
+
+            changeStateAction() {
+
+            }
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //Find the selected square that is being hovered over
+                if (gameMode == 0) {
+                    for (Square s : board) {
+                        if (s.x == Square.hovX && s.y == Square.hovY) {
+                            s.state = 1 - s.state;
+                        }
                     }
                 }
             }
-            repaint();
-        }
-    }
-
-    private class changeStateAction extends AbstractAction {
-
-        changeStateAction() {
-
         }
 
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            //Find the selected square that is being hovered over
-            for (Square s : board) {
-                if (s.x == Square.hovX && s.y == Square.hovY) {
-                    s.state = 1 - s.state;
+        private class exitAction extends AbstractAction {
+
+            exitAction() {
+
+            }
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //Find the selected square that is being hovered over
+                if (gameMode == 0) {
+                    for (Square s : board) {
+                        if (s.x == Square.hovX && s.y == Square.hovY) {
+                            if (s.exit) {
+                                gameMode = 1;
+                                gameBoard1.px = 0;
+                                gameBoard1.py = 0;
+                            }
+                            s.exit = true;
+                        }
+                    }
+                } else {
+                    System.out.println("You're a winner!");
                 }
             }
         }
-    }
-    private class exitAction extends AbstractAction {
-
-        exitAction() {
-
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            //Find the selected square that is being hovered over
-            for (Square s : board) {
-                if (s.x == Square.hovX && s.y == Square.hovY) {
-                    s.exit = true;
-                }
-            }
-        }
-    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private themaze.GameBoard gameBoard1;
     // End of variables declaration//GEN-END:variables
+}
 }

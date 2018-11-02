@@ -43,7 +43,9 @@ public class GameBoard extends javax.swing.JPanel {
         }
         g.setColor(Color.RED);
         g.fillOval(px, py, 50, 50);
-        g.drawRect(Square.hovX,Square.hovY,50,50);
+        if (MainFrame.gameMode == 0) {
+            g.drawRect(Square.hovX,Square.hovY,50,50);
+        }
     }
 
     @Override
