@@ -151,6 +151,7 @@ public class MainFrame extends javax.swing.JFrame {
                             for (Square s : board) {
                                 if (s.x == Square.hovX && s.y == Square.hovY && s.state == 0) {
                                     gameBoard1.py -= 50;
+                                    break;
                                 }
                             }
                         } else {
@@ -161,6 +162,7 @@ public class MainFrame extends javax.swing.JFrame {
                         for (Square s : board) {
                             if (s.x == gameBoard1.px && s.y == gameBoard1.py - 50 && s.state == 0) {
                                 gameBoard1.py -= 50;
+                                break;
                             }
                         }
                     }
@@ -172,6 +174,7 @@ public class MainFrame extends javax.swing.JFrame {
                             for (Square s : board) {
                                 if (s.x == Square.hovX && s.y == Square.hovY && s.state == 0) {
                                     gameBoard1.px += 50;
+                                    break;
                                 }
                             }
                         } else {
@@ -182,6 +185,7 @@ public class MainFrame extends javax.swing.JFrame {
                         for (Square s : board) {
                             if (s.x == gameBoard1.px + 50 && s.y == gameBoard1.py && s.state == 0) {
                                 gameBoard1.px += 50;
+                                break;
                             }
                         }
                     }
@@ -193,6 +197,7 @@ public class MainFrame extends javax.swing.JFrame {
                             for (Square s : board) {
                                 if (s.x == Square.hovX && s.y == Square.hovY && s.state == 0) {
                                     gameBoard1.py += 50;
+                                    break;
                                 }
                             }
                         } else {
@@ -203,10 +208,12 @@ public class MainFrame extends javax.swing.JFrame {
                         for (Square s : board) {
                             if (s.x == gameBoard1.px && s.y == gameBoard1.py + 50 && s.state == 0) {
                                 gameBoard1.py += 50;
+                                break;
                             }
                         }
                     }
-                } else { //LEFT
+                }
+            } else { //LEFT
                     if (gameBoard1.px > 0) {
                         if (gameMode == 0) {
                             if (gameBoard1.px == Square.hovX + 50 && gameBoard1.py == Square.hovY) {
@@ -223,6 +230,7 @@ public class MainFrame extends javax.swing.JFrame {
                             for (Square s : board) {
                                 if (s.x == gameBoard1.px - 50 && s.y == gameBoard1.py && s.state == 0) {
                                     gameBoard1.px -= 50;
+                                    break;
                                 }
                             }
                         }
@@ -231,7 +239,6 @@ public class MainFrame extends javax.swing.JFrame {
                 repaint();
             }
         }
-
         private class changeStateAction extends AbstractAction {
 
             changeStateAction() {
@@ -279,5 +286,5 @@ public class MainFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private themaze.GameBoard gameBoard1;
     // End of variables declaration//GEN-END:variables
-}
+
 }
